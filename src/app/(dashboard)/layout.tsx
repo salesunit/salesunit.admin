@@ -9,7 +9,7 @@ export default function DashboardLayout({
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main className="space-y-6">{children}</main>
+      <main className="space-y-6 w-full overflow-hidden">{children}</main>
     </SidebarProvider>
   );
 }
