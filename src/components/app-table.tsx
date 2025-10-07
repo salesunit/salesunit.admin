@@ -18,11 +18,13 @@ import {
 interface AppTableProps<TData, TValue> {
   data: TData[];
   columns: ColumnDef<TData, TValue>[];
+  loading?: boolean;
 }
 
 export function AppTable<TData, TValue>({
   data,
   columns,
+  loading,
 }: AppTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -53,14 +55,25 @@ export function AppTable<TData, TValue>({
           ))}
         </TableHeader>
         <TableBody>
-          {table.getRowModel().rows.length ? (
+          {loading ? (
+            Array(5)
+              .fill(0)
+              .map((_, index) => (
+                <TableRow key={index}>
+                  <TableCell
+                    key={index}
+                    className="p-4 align-middle text-sm"
+                    colSpan={table.getAllColumns().length}
+                  >
+                    <span className="inline-block animate-pulse h-4 w-full bg-gray-200 rounded-2xl"></span>
+                  </TableCell>
+                </TableRow>
+              ))
+          ) : table.getRowModel().rows.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow key={row.id}>
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell
-                    key={cell.id}
-                    className="p-4 align-middle text-sm"
-                  >
+                  <TableCell key={cell.id} className="p-4 align-middle text-sm">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}

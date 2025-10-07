@@ -7,51 +7,53 @@ export const BusinessColumns: ColumnDef<IBusiness, unknown>[] = [
   {
     accessorKey: "name",
     header: () => <span>Business Name</span>,
-    cell: ({ row }) => row.original.name,
+    cell: ({ row }) => <span>{row.original.name}</span>,
   },
   {
     accessorKey: "category",
     header: () => <span>Category</span>,
-    cell: ({ row }) => row.original.category,
+    cell: ({ row }) => <span>{row.original.category}</span>,
   },
   {
     accessorKey: "country",
     header: () => <span>Country</span>,
-    cell: ({ row }) => row.original.country,
+    cell: ({ row }) => (
+      <span className="capitalize">{row.original.country}</span>
+    ),
   },
   {
     accessorKey: "state",
     header: () => <span>State</span>,
-    cell: ({ row }) => row.original.state,
+    cell: ({ row }) => <span>{row.original.state}</span>,
   },
   {
     accessorKey: "city",
     header: () => <span>City</span>,
-    cell: ({ row }) => row.original.city,
+    cell: ({ row }) => <span>{row.original.city}</span>,
   },
   {
     accessorKey: "phone",
     header: () => <span>Phone</span>,
-    cell: ({ row }) => row.original.phone,
+    cell: ({ row }) => <span>{row.original.phone}</span>,
   },
   {
     accessorKey: "email",
     header: () => <span>Email</span>,
-    cell: ({ row }) => row.original.email || "N/A",
+    cell: ({ row }) => <span>{row.original.email || "N/A"}</span>,
   },
   {
     accessorKey: "isRegistered",
     header: () => <span>Registered</span>,
-    cell: ({ row }) => (row.original.isRegistered ? "Yes" : "No"),
+    cell: ({ row }) => <span>{row.original.isRegistered ? "Yes" : "No"}</span>,
   },
   {
     accessorKey: "yearFounded",
     header: () => <span>Year Founded</span>,
-    cell: ({ row }) => Number(row.original.yearFounded) || "N/A",
+    cell: ({ row }) => <span>{Number(row.original.yearFounded) || "N/A"}</span>,
   },
   {
     accessorKey: "createdAt",
     header: () => <span>Created At</span>,
-    cell: ({ row }) => formatDate(row.original.createdAt),
+    cell: ({ row }) => <span>{formatDate(row.original.createdAt)}</span>,
   },
 ];

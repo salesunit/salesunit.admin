@@ -6,7 +6,7 @@ import {
 	ChevronsLeftIcon,
 	ChevronsRightIcon,
 } from "lucide-react";
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { Button } from "./ui/button";
 import {
 	Select,
@@ -35,6 +35,7 @@ export const AppPagination: FC<AppPaginationProps> = ({
   hasPreviousPage,
   nextPageHandler,
   previousPageHandler,
+  itemsOnCurrentPage = 0,
   currentPage = 1,
   limit = 10,
   totalPages = 1,
@@ -42,72 +43,82 @@ export const AppPagination: FC<AppPaginationProps> = ({
   setLimit,
   setCurrentPage,
 }) => {
+  const shownItems = useMemo(() => {
+    const previousItems = limit * (currentPage - 1);
+    return itemsOnCurrentPage + previousItems;
+  }, [limit, currentPage, itemsOnCurrentPage]);
+
   return (
-    <div className="flex sm:flex-row flex-col flex-wrap items-center justify-between p-4 gap-4">
-      <div className="flex items-center space-x-2">
-        <p className="text-sm font-medium">Rows per page</p>
-        <Select
-          value={`${limit}`}
-          onValueChange={(value) => {
-            setLimit?.(Number(value));
-          }}
-        >
-          <SelectTrigger className="h-8 w-[70px]">
-            <SelectValue placeholder={limit} />
-          </SelectTrigger>
-          <SelectContent side="top">
-            {[10, 20, 25, 30, 40, 50].map((limit) => (
-              <SelectItem key={limit} value={`${limit}`}>
-                {limit}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-      <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-        Page {currentPage} of {totalPages}
-      </div>
-      <div className="flex items-center space-x-2">
-        <Button
-          variant="outline"
-          size="icon"
-          className="hidden size-8 lg:flex"
-          onClick={() => setCurrentPage?.(1)}
-          disabled={!hasPreviousPage}
-        >
-          <span className="sr-only">Go to first page</span>
-          <ChevronsLeftIcon />
-        </Button>
-        <Button
-          variant="outline"
-          size="icon"
-          className="size-8"
-          onClick={() => previousPageHandler?.()}
-          disabled={!hasPreviousPage}
-        >
-          <span className="sr-only">Go to previous page</span>
-          <ChevronLeftIcon />
-        </Button>
-        <Button
-          variant="outline"
-          size="icon"
-          className="size-8"
-          onClick={() => nextPageHandler?.()}
-          disabled={!hasNextPage}
-        >
-          <span className="sr-only">Go to next page</span>
-          <ChevronRightIcon />
-        </Button>
-        <Button
-          variant="outline"
-          size="icon"
-          className="hidden size-8 lg:flex"
-          onClick={() => setCurrentPage?.(totalPages)}
-          disabled={!hasNextPage}
-        >
-          <span className="sr-only">Go to last page</span>
-          <ChevronsRightIcon />
-        </Button>
+    <div className="space-y-4 p-4">
+      <p className="whitespace-nowrap text-muted-foreground text-sm">
+        {`Showing ${shownItems} of ${totalItems} items.`}
+      </p>
+      <div className="flex sm:flex-row flex-col flex-wrap items-center justify-between gap-4">
+        <div className="flex items-center space-x-2">
+          <p className="text-sm font-medium">Rows per page</p>
+          <Select
+            value={`${limit}`}
+            onValueChange={(value) => {
+              setLimit?.(Number(value));
+            }}
+          >
+            <SelectTrigger className="h-8 w-[70px]">
+              <SelectValue placeholder={limit} />
+            </SelectTrigger>
+            <SelectContent side="top">
+              {[10, 20, 25, 30, 40, 50].map((limit) => (
+                <SelectItem key={limit} value={`${limit}`}>
+                  {limit}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex w-[100px] items-center justify-center text-sm font-medium">
+          Page {currentPage} of {totalPages}
+        </div>
+        <div className="flex items-center space-x-2">
+          <Button
+            variant="outline"
+            size="icon"
+            className="hidden size-8 lg:flex"
+            onClick={() => setCurrentPage?.(1)}
+            disabled={!hasPreviousPage}
+          >
+            <span className="sr-only">Go to first page</span>
+            <ChevronsLeftIcon />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            className="size-8"
+            onClick={() => previousPageHandler?.()}
+            disabled={!hasPreviousPage}
+          >
+            <span className="sr-only">Go to previous page</span>
+            <ChevronLeftIcon />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            className="size-8"
+            onClick={() => nextPageHandler?.()}
+            disabled={!hasNextPage}
+          >
+            <span className="sr-only">Go to next page</span>
+            <ChevronRightIcon />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            className="hidden size-8 lg:flex"
+            onClick={() => setCurrentPage?.(totalPages)}
+            disabled={!hasNextPage}
+          >
+            <span className="sr-only">Go to last page</span>
+            <ChevronsRightIcon />
+          </Button>
+        </div>
       </div>
     </div>
   );
