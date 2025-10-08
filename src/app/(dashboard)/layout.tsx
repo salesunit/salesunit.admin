@@ -1,3 +1,4 @@
+import { AppHeader } from "@/components/app-header";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 
@@ -9,7 +10,10 @@ export default function DashboardLayout({
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main className="space-y-6 w-full overflow-hidden">{children}</main>
+      <main className="space-y-6 w-full overflow-hidden">
+        <AppHeader />
+        {children}
+      </main>
     </SidebarProvider>
   );
 }

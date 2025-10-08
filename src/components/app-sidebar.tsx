@@ -1,13 +1,18 @@
+"use client";
+
+import { cn } from "@/lib/utils";
 import { BuildingIcon, StoreIcon, UsersIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { FC } from "react";
 import {
-	Sidebar,
-	SidebarContent,
-	SidebarFooter,
-	SidebarHeader,
-	SidebarMenu,
-	SidebarMenuItem,
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuItem,
 } from "./ui/sidebar";
 
 const menuItems: { title: string; url: string; icon?: typeof UsersIcon }[] = [
@@ -28,7 +33,8 @@ const menuItems: { title: string; url: string; icon?: typeof UsersIcon }[] = [
   },
 ];
 
-export const AppSidebar = () => {
+export const AppSidebar: FC = () => {
+  const pathname = usePathname();
   return (
     <Sidebar>
       <SidebarHeader className="p-4 border-b">
@@ -43,10 +49,13 @@ export const AppSidebar = () => {
         </div>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarMenu className="space-y-4 p-4">
-          {menuItems.map((item) => (
-            <SidebarMenuItem key={item.url}>
-              <Link href={item.url} className="flex items-center gap-4">
+        <SidebarMenu className="space-y-2 p-4">
+          {menuItems.map((item, index) => (
+            <SidebarMenuItem key={index}>
+              <Link
+                href={item.url}
+                className={cn("flex items-center gap-4 p-2 hover:bg-gray-100 rounded", pathname === item.url && "bg-primary text-white font-medium")}
+              >
                 {item.icon && <item.icon size={18} />}
                 <span className="text-sm">{item.title}</span>
               </Link>
@@ -55,7 +64,9 @@ export const AppSidebar = () => {
         </SidebarMenu>
       </SidebarContent>
       <SidebarFooter className="p-4 border-t text-sm text-gray-500">
-        <p className="text-xs">&copy; {new Date().getFullYear()} Salesunit. All rights reserved.</p>
+        <p className="text-xs">
+          &copy; {new Date().getFullYear()} Salesunit. All rights reserved.
+        </p>
       </SidebarFooter>
     </Sidebar>
   );
