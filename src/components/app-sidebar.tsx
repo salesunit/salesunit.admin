@@ -60,8 +60,9 @@ export const AppSidebar: FC = () => {
               <Link
                 href={item.url}
                 className={cn(
-                  "flex items-center gap-4 p-2 hover:bg-gray-100 rounded",
-                  pathname === item.url && "bg-primary text-white font-medium"
+                  "flex items-center gap-4 p-2 rounded",
+                  pathname === item.url && "bg-primary text-white font-medium",
+                  "hover:bg-gray-100 hover:text-gray-800"
                 )}
               >
                 {item.icon && <item.icon size={18} />}
