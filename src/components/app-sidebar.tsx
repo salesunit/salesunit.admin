@@ -13,6 +13,7 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarMenuItem,
+  useSidebar,
 } from "./ui/sidebar";
 
 const menuItems: { title: string; url: string; icon?: typeof UsersIcon }[] = [
@@ -35,6 +36,7 @@ const menuItems: { title: string; url: string; icon?: typeof UsersIcon }[] = [
 
 export const AppSidebar: FC = () => {
   const pathname = usePathname();
+  const sidebarContext = useSidebar();
   return (
     <Sidebar>
       <SidebarHeader className="p-4 border-b">
@@ -51,10 +53,16 @@ export const AppSidebar: FC = () => {
       <SidebarContent>
         <SidebarMenu className="space-y-2 p-4">
           {menuItems.map((item, index) => (
-            <SidebarMenuItem key={index}>
+            <SidebarMenuItem
+              key={index}
+              onClick={() => sidebarContext.setOpenMobile(false)}
+            >
               <Link
                 href={item.url}
-                className={cn("flex items-center gap-4 p-2 hover:bg-gray-100 rounded", pathname === item.url && "bg-primary text-white font-medium")}
+                className={cn(
+                  "flex items-center gap-4 p-2 hover:bg-gray-100 rounded",
+                  pathname === item.url && "bg-primary text-white font-medium"
+                )}
               >
                 {item.icon && <item.icon size={18} />}
                 <span className="text-sm">{item.title}</span>
